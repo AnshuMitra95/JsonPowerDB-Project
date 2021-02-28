@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en">
+<head>
+    <title>Student Registration Form</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
+</head>
+<body>
+    <div class="container">
+    <h2> Student Registration form</h2>
+    <form id="stdForm" method="post">
+        <div class="form-group">
+            <label for="Name">Student Name:</label>
+            <input type="text" class="form-control" id="Name" placeholder="Enter your Name" name="Name">
+        </div>
+        <div class="form-group">
+            <label for="DOB">Date of Birth:</label>
+            <input type="date" class="form-control" id="DOB" placeholder="Date of Birth" name="DOB">
+        </div>
+        <div class="form-group">
+            <label for="Gender">Gender:</label>
+            <input type="text" class="form-control" id="Gender" placeholder="Enter your Gender" name="Gender">
+        </div>
+        <div class="form-group">
+            <span>
+                <label for="stdEmail">Email Id:</label> 
+                <label id="stdEmail"></label>
+            </span>
+            <input type="email" class="form-control" name="stdEmail" id="stdEmail" placeholder="Enter your Email">
+        </div>
+    
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input type="password" class="form-control" id="Password" placeholder="Enter Password" name="Password">
+        </div>
+        <div class="form-group">
+            <label for="School">School/College:</label>
+            <input type="text" class="form-control" id="School" placeholder="Enter your School/College" name="School">
+        </div>
+        <div class="form-group">
+            <label for="Course">Course:</label>
+            <input type="text" class="form-control" id="Course" placeholder="Enter your Course" name="Course">
+        </div>
+        <div class="form-group">
+            <label for="Mobile_No">Mobile Number:</label>
+            <input type="tel" class="form-control" id="Mobile_No" placeholder="Enter your Mobile Number" name="Mobile_No">
+        </div>
+        <input type="button" class="btn btn-primary" id="stdSave" value="Save" onclick="saveStudent();">
+    </form>
+    </div>
+    <script>
+        $("#Name").focus();
+        function validateAndGetFormData() {
+            var NameVar = $("#Name").val();
+            if (NameVar === "") {
+               alert("Student Name is Required Value");
+               $("#Name").focus();
+               return "";
+            }
+        
+        var DOBVar = $("#DOB").val();
+        if (DOBVar === "") {
+        alert("Student Date of Birth is Required Value");
+            $("#DOB").focus();
+         return "";
+        }
+        var GenderVar = $("#Gender").val();
+        if (GenderVar === "") {
+        alert("Student Gender is Required Value");
+            $("#Gender").focus();
+         return "";
+        }
+        /*
+         var EmailVar = $("#stdEmail").val();
+            if (EmailVar === "") {
+                alert("Student Email is Required Value");
+                //alert(EmailVar);
+                $("#stdEmail").focus();
+                return "";
+           }
+        */
+        var passVar = $("#Password").val();
+        if (passVar === "") {
+            alert("Password is Required Value");
+            $("#Password").focus();
+            return "";
+        }
+        var SchoolVar = $("#School").val();
+        if (SchoolVar === "") {
+        alert("School/College is Required Value");
+            $("#School").focus();
+         return "";
+        }
+        var courseVar = $("#course").val();
+        if (courseVar === "") {
+        alert("course is Required Value");
+            $("#course").focus();
+         return "";
+        }
+        var MobileVar = $("#Mobile_No").val();
+        if (MobileVar === "") {
+        alert("Mobile is Required Value");
+            $("#Mobile_No").focus();
+         return "";
+        }
+        
+        var jsonStrObj = {
+
+            Name: NameVar,
+            DOB: DOBVar,
+            Gender: GenderVar,
+            stdEmail: EmailVar, 
+            Password: passVar,
+            School: SchoolVar,
+            course: courseVar,
+            Mobile_No: MobileVar
+
+        };
+        return JSON.stringify(jsonStrObj);
+       }
+        function resetForm() {
+            $("#Name").val("");
+            $("#DOB").val("");
+            $("#Gender").val("");
+            $("#stdEmail").val("");
+            $("#Password").val("");
+            $("#School").val("");
+            $("#couse").val("");
+            $("#Mobile_No").val("");
+            $("#Name").focus();
+        }
+        function saveStudent() {
+            var jsonStr = validateAndGetFormData();
+            if (jsonStr === "") {
+                 return;
+            }
+        var putReqStr = createPUTRequest("90935342|-31948798878708453|90934509",jsonStr, "StudentRegistration", "Student-Details");
+        alert(putReqStr);
+        jQuery.ajaxSetup({async: false});
+         var resultObj = executeCommandAtGivenBaseUrl(putReqStr,"http://api.login2explore.com:5577", "/api/iml");
+        alert(JSON.stringify(resultObj));
+        jQuery.ajaxSetup({async: true});
+        resetForm();
+       }
+    </script>
+</body>
+</html>
